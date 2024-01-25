@@ -16,12 +16,20 @@ void TCPServer::on_client_connecting()
 {
     qDebug() << "Client connected to server";
     auto socket = _server->nextPendingConnection();
+    _socketsList.append(socket);
     emit newClientConnected();
 }
 
 bool TCPServer::isStarted() const
 {
     return _isStarted;
+}
+
+void TCPServer::sendToAll(QString message)
+{
+    foreach (auto socket, _socketsList){
+        socket->write(message.toUtf8());
+    }
 }
 
 

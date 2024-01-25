@@ -14,21 +14,28 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::newClientConnected()
+{
+    ui->console->addItem("New client connected");
+}
 
-void MainWindow::on_pushButton_clicked()
+
+void MainWindow::on_btnStart_clicked()
 {
     if(_server == nullptr) {
        auto port = ui->spinPort->value();
        _server = new TCPServer(port);
-       connect(_server, &TCPServer::newClientConnected, this, &MainWindow::on_newClient_connected);
+       connect(_server, &TCPServer::newClientConnected, this, &MainWindow::newClientConnected);
     }
     auto state = (_server->isStarted()) ? "1" : "0";
     ui->status->setProperty("state", state);
     style()->polish(ui->status);
 }
 
-void MainWindow::on_newClient_connected()
+
+void MainWindow::on_btnSend_clicked()
 {
-    ui->console->addItem("New client connected");
+    auto message = ui->message->text().trimmed();
+    _server->sendToAll(message);
 }
 

@@ -11,6 +11,7 @@ class TCPServer : public QObject
 public:
     explicit TCPServer(int port, QObject *parent = nullptr);
     bool isStarted() const;
+    void sendToAll(QString message);
 signals:
    void newClientConnected();
 private slots:

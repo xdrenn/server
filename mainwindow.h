@@ -18,8 +18,11 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
-    void on_newClient_connected();
+    void newClientConnected();
+    void on_btnStart_clicked();
+
+    void on_btnSend_clicked();
+
 private:
     Ui::MainWindow *ui;
     TCPServer *_server;
