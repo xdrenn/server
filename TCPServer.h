@@ -14,8 +14,12 @@ public:
     void sendToAll(QString message);
 signals:
    void newClientConnected();
+   void clientDisconnected();
+   void dataReceived(QString message);
 private slots:
     void on_client_connecting();
+    void clientDataReady();
+    void disconnected();
 private:
     QTcpServer *_server;
     QList<QTcpSocket *> _socketsList;

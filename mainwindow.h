@@ -20,7 +20,8 @@ public:
 private slots:
     void newClientConnected();
     void on_btnStart_clicked();
-
+    void clientDisconnected();
+    void dataReceived(QString message);
     void on_btnSend_clicked();
 
 private:

@@ -16,8 +16,22 @@ void TCPServer::on_client_connecting()
 {
     qDebug() << "Client connected to server";
     auto socket = _server->nextPendingConnection();
+    connect(socket, &QTcpSocket::readyRead, this, &TCPServer::clientDataReady);
+        connect(socket, &QTcpSocket::disconnected, this, &TCPServer::clientDisconnected);
     _socketsList.append(socket);
     emit newClientConnected();
+}
+
+void TCPServer::clientDataReady()
+{
+    auto socket = qobject_cast<QTcpSocket *>(sender());
+    auto data = socket->readAll();
+    emit dataReceived(QString(data));
+}
+
+void TCPServer::disconnected()
+{
+    emit clientDisconnected();
 }
 
 bool TCPServer::isStarted() const

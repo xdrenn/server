@@ -26,10 +26,22 @@ void MainWindow::on_btnStart_clicked()
        auto port = ui->spinPort->value();
        _server = new TCPServer(port);
        connect(_server, &TCPServer::newClientConnected, this, &MainWindow::newClientConnected);
+       connect(_server, &TCPServer::dataReceived, this, &MainWindow::dataReceived);
+       connect(_server, &TCPServer::clientDisconnected, this, &MainWindow::clientDisconnected);
     }
     auto state = (_server->isStarted()) ? "1" : "0";
     ui->status->setProperty("state", state);
     style()->polish(ui->status);
+}
+
+void MainWindow::clientDisconnected()
+{
+    ui->console->addItem("Client Disconnected");
+}
+
+void MainWindow::dataReceived(QString message)
+{
+    ui->console->addItem(message);
 }
 
 
